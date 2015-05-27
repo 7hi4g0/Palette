@@ -1,11 +1,22 @@
 <html>
 	<head>
 		<title>Color Palette</title>
+		<link href="palette.css" rel="stylesheet" />
 	</head>
 	<body>
 		<canvas id="palette" height="300" width="300">
 			Seu browser não suporta canvas
 		</canvas>
+		<div>
+			<div id="color">
+			</div>
+			<label for="red">Red:</label>
+			<input id="red" type="range" min="0" max="255" step="1" />
+			<label for="green">Green:</label>
+			<input id="green" type="range" min="0" max="255" step="1" />
+			<label for="blue">Blue:</label>
+			<input id="blue" type="range" min="0" max="255" step="1" />
+		</div>
 		<script src="palette.js"></script>
 	</body>
 </html>

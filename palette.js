@@ -1,5 +1,6 @@
 window.onload = function () {
 	var canvas,
+		colorBox,
 		ctx,
 		angle,
 		color,
@@ -9,6 +10,17 @@ window.onload = function () {
 
 	canvas = document.getElementById("palette");
 	ctx = canvas.getContext("2d");
+
+	colorBox = document.getElementById("color");
+
+	canvas.addEventListener("click", function canvasClick(ev) {
+		var pixel = ctx.getImageData(ev.layerX, ev.layerY, 1, 1);
+		var data = pixel.data;
+
+		var rgb = new RGB(data[0], data[1], data[2]);
+
+		colorBox.style.background = rgb.toColorString();
+	});
 
 	primaries = [
 		new RGB(255, 0, 0),
