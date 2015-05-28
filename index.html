@@ -1,14 +1,16 @@
-<html>
+<html ng-app="palette">
 	<head>
 		<title>Color Palette</title>
 		<link href="palette.css" rel="stylesheet" />
+
+		<script src="bower_components/angular/angular.min.js"></script>
 	</head>
-	<body>
-		<canvas id="palette" height="300" width="300">
+	<body ng-controller="ColorPaletteCtrl">
+		<canvas id="palette" height="300" width="300" data-color-palette>
 			Seu browser não suporta canvas
 		</canvas>
 		<div>
-			<div id="color">
+			<div id="color" data-color="selectedColor">
 			</div>
 			<label for="red">Red:</label>
 			<input id="red" type="range" min="0" max="255" step="1" />
@@ -18,5 +20,6 @@
 			<input id="blue" type="range" min="0" max="255" step="1" />
 		</div>
 		<script src="palette.js"></script>
+		<script src="app.js"></script>
 	</body>
 </html>
