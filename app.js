@@ -12,15 +12,30 @@ PALETTE = {};
 		.controller("ControlsCtrl", ["$scope", function ($scope) {
 		}])
 		
+		.directive("number", [function () {
+			var numberParser;
+
+			numberParser = function (number) {
+				return parseInt(number);
+			};
+
+			return {
+				restrict: "A",
+				require: "ngModel",
+				link: function ($scope, $elem, $attrs, ngModelCtrl) {
+					ngModelCtrl.$parsers.push(numberParser);
+				}
+			};
+		}])
 		.directive("colorPalette", [function () {
 			return {
 				restrict: "A",
-				controller: function ($scope, $element, $attrs) {
+				link: function ($scope, $elem, $attrs) {
 					var ctx;
 
-					ctx = $element[0].getContext("2d");
+					ctx = $elem[0].getContext("2d");
 					
-					$element.on("click", function (ev) {
+					$elem.on("click", function (ev) {
 						var pixel = ctx.getImageData(ev.layerX, ev.layerY, 1, 1);
 						var data = pixel.data;
 
@@ -40,10 +55,23 @@ PALETTE = {};
 		.directive("color", [function () {
 			return {
 				restrict: "A",
-				controller: function ($scope, $element, $attrs) {
+				link: function ($scope, $elem, $attrs) {
 					$scope.$watchCollection($attrs.color, function (rgbColor) {
-						$element.css("background", rgbColor.toColorString());
+						$elem.css("background", rgbColor.toColorString());
+						console.log(rgbColor.toColorString());
 					});
+				}
+			};
+		}])
+		.directive("colorComponent", [function () {
+			return {
+				restrict: "A",
+				scope: {
+					colorComponent: "=",
+					componentName: "@"
+				},
+				templateUrl: "directives/colorComponent.html",
+				link: function ($scope, $elem, $attrs) {
 				}
 			};
 		}]);
