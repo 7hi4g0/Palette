@@ -2,6 +2,7 @@ window.onload = function () {
 	var canvas,
 		ctx,
 		angle,
+		colorAngle,
 		color,
 		colorCount,
 		primaries,
@@ -10,23 +11,22 @@ window.onload = function () {
 	canvas = document.getElementById("palette");
 	ctx = canvas.getContext("2d");
 
-	canvas.addEventListener("click", function canvasClick(ev) {
-	});
-
 	primaries = [
 		new RGB(255, 0, 0),
 		new RGB(0, 255, 0),
 		new RGB(0, 0, 255),
 	];
 
-	colorCount = 12;
+	colorCount = 3;
 
 	colors = generateColors(primaries, colorCount);
 
 	angle = (2 * Math.PI) / colorCount;
+	colorAngle = (-0.5 * Math.PI) - (angle /  2);
 
 	for (color = 0; color < colorCount; color += 1) {
-		paletteColor(colors[color].toColorString(), color * angle);
+		paletteColor(colors[color].toColorString(), colorAngle);
+		colorAngle += angle;
 	}
 
 	function generateColors(primaries, totalColors) {
