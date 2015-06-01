@@ -17,7 +17,7 @@ window.onload = function () {
 		new RGB(0, 0, 255),
 	];
 
-	colorCount = 3;
+	colorCount = 192;
 
 	colors = generateColors(primaries, colorCount);
 
@@ -39,11 +39,12 @@ window.onload = function () {
 
 		for (color = 0; color < 3; color += 1) {
 			colors[color * skip] = primaries[color];
+			colors[(color * skip) + (skip / 2)] = primaries[color].sum(primaries[(color + 1) % 3]);
 		}
 
-		for (; skip > 1; skip /= 2) {
+		for (skip /= 2; skip > 1; skip /= 2) {
 			for (color = 0; color < totalColors; color += skip) {
-				colors[color + (skip / 2)] = RGB.mix(colors[color], colors[(color + skip) % totalColors]);
+				colors[color + (skip / 2)] = RGB.avg(colors[color], colors[(color + skip) % totalColors]);
 			}
 		}
 
@@ -70,6 +71,18 @@ var RGB = (function () {
 			toHexString(this.b);
 	};
 
+	RGB.prototype.sum = function (color) {
+		if (!(color instanceof RGB)) {
+			throw new Error("Can only sum RGB colors!");
+		}
+
+		return new RGB(
+				Math.max(this.r, color.r),
+				Math.max(this.g, color.g),
+				Math.max(this.b, color.b)
+			);
+	};
+
 	RGB.mix = function (colorA, colorB) {
 		var r, b, g;
 
@@ -80,6 +93,20 @@ var RGB = (function () {
 		r = Math.floor(Math.sqrt((Math.pow(colorA.r, 2) + Math.pow(colorB.r, 2)) / 2));
 		g = Math.floor(Math.sqrt((Math.pow(colorA.g, 2) + Math.pow(colorB.g, 2)) / 2));
 		b = Math.floor(Math.sqrt((Math.pow(colorA.b, 2) + Math.pow(colorB.b, 2)) / 2));
+
+		return new RGB(r, g, b);
+	};
+
+	RGB.avg = function (colorA, colorB) {
+		var r, b, g;
+
+		if (!(colorA instanceof RGB) || !(colorB instanceof RGB)) {
+			throw new Error("Can only average RGB colors!");
+		}
+
+		r = Math.floor((colorA.r + colorB.r) / 2);
+		g = Math.floor((colorA.g + colorB.g) / 2);
+		b = Math.floor((colorA.b + colorB.b) / 2);
 
 		return new RGB(r, g, b);
 	};
