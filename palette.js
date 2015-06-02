@@ -52,7 +52,9 @@ window.onload = function () {
 	}
 
 	function paletteColor(color, start) {
-		ctx.fillStyle = color;
+		ctx.fillStyle =
+		ctx.strokeStyle = 
+			color;
 
 		ctx.beginPath();
 		//ctx.moveTo(150, 150);
@@ -60,6 +62,7 @@ window.onload = function () {
 		ctx.arc(150, 150, 120, start + angle, start, true);
 		ctx.closePath();
 		ctx.fill();
+		ctx.stroke();
 	}
 };
 
